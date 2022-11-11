@@ -1,0 +1,27 @@
+.box {
+  display: flex;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+
+  padding: 15px;
+  gap: 15px;
+}
+
+.genres {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 5px;
+  margin-top: 10px;
+
+  border: 1px solid grey;
+}
