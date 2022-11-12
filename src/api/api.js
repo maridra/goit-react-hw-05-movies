@@ -1,3 +1,5 @@
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 const BASE_URL = 'https://api.themoviedb.org/3/';
 const API_KEY = '556d59275e7e814a4dccfe2b8480ba60';
 const TRENDING_MOVIES = 'trending/movie/day';
@@ -35,7 +37,7 @@ export const getMovieDetails = id => {
       }
       return res.json();
     })
-    .catch(e => console.log(e.message));
+    .catch(e => Notify.failure(e.message));
 };
 
 export const getMovieCredits = id => {
@@ -45,14 +47,7 @@ export const getMovieCredits = id => {
 };
 
 export const getMovieRewievs = id => {
-  return fetch(`${BASE_URL}${MOVIE_DETAILS}${id}/reviews?${searchParams}`)
-    .then(res => {
-      if (!res.ok) {
-        return Promise.reject(
-          new Error(`We don't have any reviews for this movie`)
-        );
-      }
-      return res.json();
-    })
-    .catch(e => console.log(e.message));
+  return fetch(`${BASE_URL}${MOVIE_DETAILS}${id}/reviews?${searchParams}`).then(
+    res => res.json()
+  );
 };

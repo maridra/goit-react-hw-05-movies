@@ -1,6 +1,7 @@
+import { Route, Routes } from 'react-router-dom';
+
 import { Navigation, Cast, Reviews } from 'components';
 import { Home, Movies, MovieDetails } from 'pages';
-import { Route, Routes } from 'react-router-dom';
 
 export const App = () => {
   return (

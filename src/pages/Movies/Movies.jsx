@@ -1,61 +1,51 @@
-import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { BiSearchAlt } from 'react-icons/bi';
+import { useState, useEffect, useContext } from 'react';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-import { MovieList } from 'components';
+import { MovieList, SearchField } from 'components';
 import { searchMovies } from 'api/api';
-
-import css from './Movies.module.css';
+import { MovieContext } from 'context/MoviesCtx';
 
 export default function Movies() {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleInputChange = e => {
-    const inputValue = e.target.value;
-    setQuery(inputValue);
+  const { movies: moviesCtx } = useContext(MovieContext);
+  const location = useLocation();
+
+  const getData = queryData => {
+    setQuery(queryData);
+    setSearchParams(queryData !== '' ? { query: queryData } : {});
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const queryParam = searchParams.get('query');
 
-    if (query.trim() === '') {
-      Notify.failure('Please, fill in the request field');
-      return;
-    }
+  useEffect(() => {
+    if (!queryParam) return;
+    setQuery(queryParam);
+  }, [queryParam]);
 
-    searchMovies(query).then(({ results }) => setMovies(results));
-    // setSearchParams(query !== '' ? { query: query } : {});
+  useEffect(() => {
+    if (query === '') return;
 
-    setQuery('');
-  };
+    searchMovies(query)
+      .then(({ results }) => {
+        if (results.length === 0) {
+          return Promise.reject(
+            new Error(`There are no movies named ${query}.`)
+          );
+        }
 
-  // const changeUrl = value => {
-  //   setSearchParams(value !== '' ? { query: value } : {});
-  //   console.log(1);
-  // };
-
-  // changeUrl(query);
-
-  // setSearchParams(query !== '' ? { query: query } : {});
+        moviesCtx.current = results;
+        setMovies(moviesCtx.current);
+      })
+      .catch(e => Notify.failure(e.message));
+  }, [location, moviesCtx, query, queryParam]);
 
   return (
     <>
-      <form className={css.searchbar} onSubmit={handleSubmit}>
-        <input
-          className={css.field}
-          type="text"
-          placeholder="Search movie"
-          autoComplete="off"
-          value={query}
-          onChange={handleInputChange}
-        />
-        <button className={css.search_btn} type="submit">
-          <BiSearchAlt className={css.icon} />
-        </button>
-      </form>
+      <SearchField getQuery={getData} />
       {movies && <MovieList data={movies} />}
     </>
   );

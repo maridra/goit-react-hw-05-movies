@@ -1,5 +1,6 @@
 .box {
   display: flex;
+  margin: 5px;
 }
 
 .about {
@@ -24,4 +25,20 @@
   margin-top: 10px;
 
   border: 1px solid grey;
+}
+
+.btn_back {
+  display: inline-block;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+  color: black;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.btn_back:hover,
+.btn_back:focus {
+  box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.3);
+  color: green;
 }

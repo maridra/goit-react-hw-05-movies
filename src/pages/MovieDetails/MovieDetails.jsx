@@ -24,15 +24,18 @@ export default function MovieDetails() {
   const { title, overview, poster_path, genres } = details;
   const userScore = Math.round(details.vote_average * 10);
 
+  const backLink = location.state?.from ?? '/movies';
+
   return (
     <main>
+      <Link className={css.btn_back} to={backLink} state={'movieDetails'}>
+        Go back
+      </Link>
       <div className={css.box}>
-        <Link to={location.state.from}>Go back</Link>
         <img
           src={`https://image.tmdb.org/t/p/original${poster_path}`}
           alt="Poster of the film"
           width="200px"
-          // height="500px"
         />
         <div className={css.about}>
           <h2>{title}</h2>
@@ -50,8 +53,12 @@ export default function MovieDetails() {
 
       <div className={css.info}>
         <h4>Additional information</h4>
-        <CastLink to="cast">Cast</CastLink>
-        <CastLink to="reviews">Reviews</CastLink>
+        <CastLink to="cast" state={{ from: backLink }}>
+          Cast
+        </CastLink>
+        <CastLink to="reviews" state={{ from: backLink }}>
+          Reviews
+        </CastLink>
       </div>
       <Outlet />
     </main>
