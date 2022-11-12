@@ -17,20 +17,25 @@ export default function Cast() {
   if (!cast) return;
 
   return (
-    <ul className={css.cast_list}>
-      {cast.map(({ profile_path, original_name, character }) => (
-        <li className={css.item} key={original_name}>
-          {profile_path && (
-            <img
-              src={`https://image.tmdb.org/t/p/original${profile_path}`}
-              alt="Actor"
-              width="100px"
-            />
-          )}
-          <p>{original_name}</p>
-          <p>Character: {character}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      {cast.length === 0 && (
+        <p>There is no information about the cast of this film.</p>
+      )}
+      <ul className={css.cast_list}>
+        {cast.map(({ profile_path, original_name, character }) => (
+          <li className={css.item} key={original_name}>
+            {profile_path && (
+              <img
+                src={`https://image.tmdb.org/t/p/original${profile_path}`}
+                alt="Actor"
+                width="100px"
+              />
+            )}
+            <p>{original_name}</p>
+            <p>Character: {character}</p>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }

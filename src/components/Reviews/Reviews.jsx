@@ -21,14 +21,16 @@ export default function Reviews() {
   return (
     <>
       {reviews.length === 0 && <p>We don't have any reviews for this movie.</p>}
-      <ul className={css.reviews_list}>
-        {reviews.map(({ author, content }) => (
-          <li className={css.item} key={author}>
-            <h4>{author}</h4>
-            <p>{content}</p>
-          </li>
-        ))}
-      </ul>
+      {reviews && (
+        <ul className={css.reviews_list}>
+          {reviews.map(({ author, content }) => (
+            <li className={css.item} key={author}>
+              <h4>{author}</h4>
+              <p>{content}</p>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }
