@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 
 import { getMovieDetails } from 'api/api';
@@ -60,9 +60,7 @@ export default function MovieDetails() {
           Reviews
         </CastLink>
       </div>
-      <Suspense fallback={null}>
-        <Outlet />
-      </Suspense>
+      <Outlet />
     </main>
   );
 }
